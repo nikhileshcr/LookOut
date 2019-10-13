@@ -1,0 +1,69 @@
+<resources>
+
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+
+    <string name="app_name">LookOut</string>
+    <string name="home">Home</string>
+    <string name="weather">Weather</string>
+    <string name="guide">Safety Guide</string>
+    <string name="emergency">Emergency</string>
+    <string name="setting">Settings</string>
+    <string name="routeinfo">Route Information</string>
+
+    <string name="recitem1">Guide</string>
+    <string name="recitem2">Weather</string>
+    <string name="recitem3">Maps</string>
+
+    <string name="slider1">Path to Safe Cycling </string>
+    <string name="slider2">Quick Safety Guidance</string>
+    <string name="slider3">Understand Your Route</string>
+    <string name="slider4">Weather Information</string>
+
+    <string name="rectext1">Cyclist Safety Guide</string>
+    <string name="rectext2">Bicycle Road Rules</string>
+    <string name="rectext3">Navigation</string>
+    <string name="rectext4">Keep Me Safe</string>
+    <string name="rectext5">Watch Safety Videos</string>
+    <string name="rectext6">Test Your Knowledge</string>
+
+    <string name="guide1">Wearing Bicycle Helmet</string>
+    <string name="guide2">Be Visible</string>
+    <string name="guide3">Car Door &amp; Riders</string>
+    <string name="guide4">Sharing the Road</string>
+
+    <string name="vidtext1">Always wear a helmet</string>
+    <string name="vidtext2">Be Visible</string>
+    <string name="vidtext3">Watch out for Cardoors</string>
+
+    <string name="today_title">today information</string>
+    <string name="max_tmp">Max temp</string>
+    <string name="min_tmp">Min temp</string>
+    <string name="rainfall">Rainfall</string>
+    <string name="hum">Humidity</string>
+    <string name="pressure">Pressure</string>
+    <string name="visible">Visible</string>
+    <string name="air_quality">Air quality</string>
+    <string name="pm2_5">PM2.5</string>
+    <string name="so2">SO₂</string>
+    <string name="pm10">PM10</string>
+    <string name="no2">NO₂</string>
+    <string name="co">CO</string>
+    <string name="o3">O³</string>
+    <string name="sun_moon">Sun and Moon</string>
+    <string name="forecast">Forecast</string>
+    <string name="warning">Warning</string>
+    <string name="degree">°</string>
+    <string name="menu_setting">Setting</string>
+
+    <string name="permission_rationale_location">Access to the location service is required to demonstrate the \'my location\' feature, which shows your current location on the map.</string>
+    <string name="location_permission_denied">This sample requires location permission to enable the \'my location\' layer. Please try again and grant access to use the location.\nIf the permission has been permanently denied, it can be enabled from the System Settings &gt; Apps &gt; \'Google Maps API Demos\'.</string>
+    <string name="permission_required_toast">Location permission is required for this demo.</string>
+
+    <string name="Api_Key">fe233f6bd49e46929dbfbad5ddf3f27b</string>
+    <string name="API_Key_2">2a4d37c879e3412b87e01e32e23d9a68</string>
+    <string name="Map_key">AIzaSyC2g6WItBVcXjjnt4ggz8eJ8RgJd9Zo2lg</string>
+
+    <string name="access_token_mapbox">pk.eyJ1IjoibmNoYTAwMTMiLCJhIjoiY2sxaG96a3h0MWh1NjNubnRpbXlvZ3J5OSJ9.KFg2pmQeZCR37budf-cuzA</string>
+
+</resources>

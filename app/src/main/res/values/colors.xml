@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="rec">#ECEBEB</color>
+    <color name="fortext">#FFFFFF</color>
+    <color name="slide_active">#e61212</color>
+    <color name="vertrec1">#E4C6C6</color>
+    <color name="vertrec2">#D5C8E6</color>
+    <color name="vertrec3">#D0F0D2</color>
+    <color name="vertrec4">#FAD5B4</color>
+
+    <color name="wrong">#F80505</color>
+    <color name="right">#5AF805</color>
+
+    <color name="back_white">#f7f8fa</color>
+    <color name="color_4a4a4a">#4a4a4a</color>
+    <color name="color_6eac5d">#6eac5d</color>
+    <color name="white80">#ccffffff</color>
+    <color name="blue_alarm">#7EB5F7</color>
+
+    <color name="sun_light_circle">#33F2BE55</color>
+    <color name="moon_light_circle">#33446FF2</color>
+    <color name="sun_dark_circle">#33AD9442</color>
+    <color name="moon_dark_circle">#334A5CC4</color>
+
+    <color name="dark_text_color">#B9C0CA</color>
+    <color name="attention_text_light">#E9EAEF</color>
+    <color name="air_text_common_light">#363636</color>
+
+    <color name="mapboxWhite">#ffffff</color>
+    <color name="mapboxBlue">#4264fb</color>
+    <color name="mapboxGrayLight">#c6d2e1</color>
+    <color name="mapboxPink">#ee4e8b</color>
+    <color name="mapboxYellow">#d9d838</color>
+    <color name="mapboxRed">#b43b71</color>
+</resources>

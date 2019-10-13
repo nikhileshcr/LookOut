@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:background="?attr/selectableItemBackground">
+    <item android:title="Home"
+        android:id="@+id/home"
+        android:icon="@drawable/ic_home"/>
+    <item android:title="Cyclist Safety Guide"
+        android:id="@+id/guide"
+        android:icon="@drawable/guide_icon"/>
+    <item android:title="Watch Safety Videos"
+            android:id="@+id/vid"
+            android:icon="@drawable/ic_videocam_black_24dp"/>
+    <item android:title="Bicycle Road Rules"
+        android:id="@+id/rules"
+        android:icon="@drawable/ic_bike"/>
+    <item android:title="Navigation Alerts"
+        android:id="@+id/nav"
+        android:icon="@drawable/ic_place_black_24dp"/>
+    <item android:title="Keep Me Safe"
+        android:id="@+id/kms"
+        android:icon="@drawable/ic_add_alert"/>
+    </group>
+
+    <group android:menuCategory="system">
+        <item android:id="@+id/versionno"
+            android:title="version 1.1.0"/>
+    </group>
+</menu>
