@@ -13,17 +13,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MapsActivity" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/volumebutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="25dp"
         android:layout_alignParentRight="true"
-        android:src="@drawable/ic_volume_on"
-        android:id="@+id/volumebutton"
-        android:onClick="toggleVol">
+        android:onClick="toggleVol"
+        android:src="@drawable/ic_volume_on">
 
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
     <RelativeLayout
         android:id="@+id/searchLayout"
         android:layout_width="match_parent"

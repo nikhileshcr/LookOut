@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.KeyguardManager;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -41,6 +42,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -89,19 +91,8 @@ public class EmergencyContactPage extends AppCompatActivity {
     private Location currentLocation;
     private TelephonyManager telephonyManager;
     private ImageView cont;
+    private Typeface typeface;
 
-    /*    String TAG = "MainActivity";
-        @SuppressLint("HandlerLeak")
-        private Handler handler2 = new Handler() {
-
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                if (msg.what == 100) {
-                    SendData("123");
-                }
-            }
-        };*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -123,6 +114,51 @@ public class EmergencyContactPage extends AppCompatActivity {
         builder.setTitle("User Guideline");
         builder.setMessage("This function starts timing when it is turned on, and automatically sends text messages to your emergency contacts after six prompts when the displacement is less than 8 meters per 10 minutes. Click START Timing, click CLOSE will close the function. (Your can type in your own phone number to test.)\n");
         hideSoftKeyboard();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String channelId = "chat";
+            String channelName = "message";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            createNotificationChannel(channelId, channelName, importance);
+        }
+        //获取到位置管理器实例
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        //获取到GPS_PROVIDER
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 300, 1, new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                reallocation = location;
+                //               updata(location);
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @SuppressLint("MissingPermission")
+            @Override
+            public void onProviderEnabled(String provider) {
+                //              updata(locationManager.getLastKnownLocation(provider));
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+        });
+
+
         starbutton = (SparkButton) findViewById(R.id.star_button);
         starbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,25 +189,6 @@ public class EmergencyContactPage extends AppCompatActivity {
         });
 
 
-/*        Button start = (Button) findViewById(R.id.b_start);
-        start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new Thread() {
-                    @Override
-                    public void run() {
-                        try {
-                            sleep(5000);
-                            handler2.sendEmptyMessage(100);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }.start();
-            }
-        });*/
-
-
         sp = getSharedPreferences("User", MODE_PRIVATE);
         final SharedPreferences.Editor editor = sp.edit();
 
@@ -180,43 +197,6 @@ public class EmergencyContactPage extends AppCompatActivity {
         phone.setText(sp.getString("phone", ""));
         message.setText(sp.getString("message", ""));
 
-        //获取到位置管理器实例
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        //获取到GPS_PROVIDER
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 300, 1, new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                reallocation = location;
-                updata(location);
-            }
-
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-
-            }
-
-            @SuppressLint("MissingPermission")
-            @Override
-            public void onProviderEnabled(String provider) {
-                updata(locationManager.getLastKnownLocation(provider));
-            }
-
-            @Override
-            public void onProviderDisabled(String provider) {
-
-            }
-        });
 
         submit.setOnClickListener(new View.OnClickListener() {
 
@@ -258,7 +238,7 @@ public class EmergencyContactPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 progressBar1.setVisibility(View.VISIBLE);
-//                Toast.makeText(EmergencyContactPage.this, "Wait for get your location", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EmergencyContactPage.this, "Wait for get your location", Toast.LENGTH_SHORT).show();
                 startonce = true;
                 twolocation.clear();
                 count = 6;
@@ -267,44 +247,33 @@ public class EmergencyContactPage extends AppCompatActivity {
                 handler3.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        Toast.makeText(EmergencyContactPage.this, "Timing begins", Toast.LENGTH_SHORT).show();
                         progressBar1.setVisibility(View.INVISIBLE);
                     }
                 },4000);
-                Toast.makeText(EmergencyContactPage.this, "Wait for get your location", Toast.LENGTH_SHORT).show();
-                /*progressBar1.setVisibility(View.VISIBLE);
-                 */
-/*                try {
-                    getLocation(reallocation);
-                } catch(Exception e){
-                    throw e;
-                }
-                finally{
 
-                }*/
                 getLocation(reallocation);
-                Toast.makeText(EmergencyContactPage.this, "Timing begins", Toast.LENGTH_SHORT).show();
                 handler = new Handler();
                 handler.postDelayed(new Runnable(){
-                    @Override
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     public void run() {
                         getLocation(reallocation);
                         // handler自带方法实现定时器
-//                        Toast.makeText(EmergencyContactPage.this, "L"+twolocation.get(0), Toast.LENGTH_SHORT).show();
                         double result = 10;
                         try {
                             result = getDistance(twolocation.get(i), twolocation.get(i+1), twolocation.get(i+2), twolocation.get(i+3));
                         } catch(Exception e){
-/*                            Toast.makeText(EmergencyContactPage.this, "Please find a open space, can not locate you now.", Toast.LENGTH_SHORT).show();
-                            handler.removeCallbacksAndMessages(null);*/
                             noLocation();
                         }
                         finally{
                         }
 //                        double result = getDistance(twolocation.get(i), twolocation.get(i+1), twolocation.get(i+2), twolocation.get(i+3));
-                        i = i+2;
                         if (result < 8){
                             wakeUpAndUnlock(EmergencyContactPage.this);
-                            if (count > 0){setNotification(2);Toast.makeText(EmergencyContactPage.this, "It will send message after "+count+" times", Toast.LENGTH_SHORT).show();}
+                            if (count > 0){
+                                setNotification(2);
+                                Toast.makeText(EmergencyContactPage.this, "Will send message after "+(count-1)+" beeps", Toast.LENGTH_SHORT).show();
+                            }
                             else {setNotification(1);}
                             count --;
                             if (count < 0){
@@ -312,10 +281,8 @@ public class EmergencyContactPage extends AppCompatActivity {
                             }
                             else if (count == 0){
                                 String content = null;
-                                if (sp.getString("message","")==""){
-                                    content = sp.getString("username","")+ " is not responding to our Notifications. Last known Location: "+"https://www.google.com/maps/place/"+twolocation.get(2)+","+twolocation.get(3)+"/";
-                                }
-                                else {content = sp.getString("message","")+" Im in "+"https://www.google.com/maps/place/"+twolocation.get(2)+","+twolocation.get(3)+"/";}
+                                content = sp.getString("username","") + " is not responding to us. Please contact the user."
+                                        +" Last known location: "+"https://www.google.com/maps/place/"+twolocation.get(i+2)+","+twolocation.get(i+3)+"/";
                                 SmsManager manage=SmsManager.getDefault();  //取得默认的SmsManager用于短信的发送
                                 List<String> all=manage.divideMessage(content);  //短信的内容是有限的，要根据短信长度截取。逐条发送
                                 Iterator<String> it=all.iterator();
@@ -325,6 +292,7 @@ public class EmergencyContactPage extends AppCompatActivity {
                                 }
                             }
                         }
+                        i = i+2;
                         handler.postDelayed(this,4*1000);
                     }},5000);
 //                Toast.makeText(EmergencyContactPage.this, ""+distance.get(0), Toast.LENGTH_SHORT).show();
@@ -342,7 +310,7 @@ public class EmergencyContactPage extends AppCompatActivity {
 /*        IntentFilter filter = new IntentFilter("action_send");
         registerReceiver(broadcastReceiver, filter);*/
     }
-    private void updata(Location location){
+  /*  private void updata(Location location){
         if(location != null){
             StringBuilder sb = new StringBuilder();
             sb.append("Location:\n");
@@ -363,7 +331,7 @@ public class EmergencyContactPage extends AppCompatActivity {
             sb.append("No location");
             //          tv_show_location.setText(sb.toString());
         }
-    }
+    }*/
 
     public void showGPSContacts() {
         LocationManager lm = (LocationManager) this.getSystemService(this.LOCATION_SERVICE);
@@ -388,38 +356,20 @@ public class EmergencyContactPage extends AppCompatActivity {
         }
     }
     private void getLocation(Location location) {
-        /*locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        criteria.setAltitudeRequired(true);
-        criteria.setBearingRequired(true);
-        criteria.setCostAllowed(true);
-        criteria.setPowerRequirement(Criteria.POWER_LOW);
-        String provider = locationManager.getBestProvider(criteria, true);// 得到Location
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        location = locationManager.getLastKnownLocation(provider);*/
-        String latLongString;
         if (location != null)
         {
             double lat = location.getLatitude();
             double lng = location.getLongitude();
-            updata(location);
             twolocation.add(lat);
             twolocation.add(lng);
             Log.d("twoloca",lat+" "+lng);
         }
         else
         {
-            latLongString = "No location";
+            double lat = -37.876364;
+            double lng = 145.044192;
+            twolocation.add(lat);
+            twolocation.add(lng);
         }
     }
 
@@ -435,16 +385,25 @@ public class EmergencyContactPage extends AppCompatActivity {
         super.onPause();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void createNotificationChannel(String channelId, String channelName, int importance) {
+        NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(
+                NOTIFICATION_SERVICE);
+        notificationManager.createNotificationChannel(channel);
+    }
+
     //设置通知栏消息样式
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void setNotification(int type) {
         //点击通知栏消息跳转页
         Intent intent = new Intent(this, EmergencyContactPage.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         //创建通知消息管理类
         manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        builder = new NotificationCompat.Builder(this)//创建通知消息实例
-                .setContentTitle("Do you want to stop it?")
-                .setContentText("Touch me. (Send message in " + (count-1) +" times)")
+        builder = new NotificationCompat.Builder(this,"chat")//创建通知消息实例
+                .setContentTitle("Are You OKAY ?")
+                .setContentText("Respond to stop message. (Send message in " + (count-1) +" beeps)")
                 .setWhen(System.currentTimeMillis())//通知栏显示时间
                 .setSmallIcon(R.mipmap.ic_launcher)//通知栏小图标
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))//通知栏下拉是图标
@@ -512,7 +471,6 @@ public class EmergencyContactPage extends AppCompatActivity {
     }
 
     public void noLocation(){
-        Typeface typeface;
         typeface = ResourcesCompat.getFont(this, R.font.montserrat);
 
         SweetAlertDialog sDialog = new SweetAlertDialog(EmergencyContactPage.this, SweetAlertDialog.ERROR_TYPE)
@@ -607,4 +565,3 @@ public class EmergencyContactPage extends AppCompatActivity {
         }
     }
 }
-

@@ -48,6 +48,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.loc.am;
 import com.tooltip.Tooltip;
 
 import org.json.JSONException;
@@ -407,11 +408,14 @@ public class WeatherMain extends MainActivity {
                             ampmInd = " PM";
                         }
 
-                        if (hr == 0)
+                        if (hr == 0) {
                             hr = 12;
-
-                        if (hr == 12)
-                            ampmInd = " PM";
+                            ampmInd = " AM";
+                        }
+                        else {
+                            if (hr == 12)
+                                ampmInd = " PM";
+                        }
                         imageArr[i] = getResources().getIdentifier(iconCode, "mipmap", getPackageName());
                         aptTemp[i] = Double.parseDouble(data.optString("app_temp"));
                         double tempF = 1.8 * Float.parseFloat(data.optString("temp")) + 32;
@@ -518,6 +522,9 @@ public class WeatherMain extends MainActivity {
         if ((rainStatus >= 2) || (uvStatus >= 2))
             return  R.drawable.weather_back_3;
 
+        if ((heatStatus == 2) || (wcStatus == 2))
+            return R.drawable.weather_back_3;
+
         return R.drawable.weather_back_2;
     }
 
@@ -538,14 +545,13 @@ public class WeatherMain extends MainActivity {
 
     public int getWCFactor(double wcFactor){
         int wcStatus = 0;
-
         if (wcFactor > 16)
             wcStatus = 0;
         else
-            if (wcFactor > -27)
+            if (wcFactor > 6)
                 wcStatus = 1;
             else
-                if (wcFactor > -39)
+                if (wcFactor > -5)
                     wcStatus = 2;
                 else
                     wcStatus = 3;
@@ -554,7 +560,7 @@ public class WeatherMain extends MainActivity {
 
     public int getRainStatus(int rainpr){
         int rainStatus = 0;
-        if (rainpr < 25)
+        if (rainpr < 19)
             rainStatus = 0;
         else
             if(rainpr < 50)
@@ -615,18 +621,18 @@ public class WeatherMain extends MainActivity {
             prec = prec + "<b><font color = '#f50707'> High UV Index </font></b>\n\nIt is not recommended to go out at this hour. \n\n";
 
         if (heatStatus == 2)
-            prec = prec + "<b><font color = '#f58a07'> Moderate Heat </font></b> \n\nStay Hydrated. \nDrink water even if not thirsty \n"
-                    + "Wear sunscreen with good SPF \n"
-                    + "Use wet towel/napkins under your helmet \n"
-                    + "Carry some snacks to stay energized \n"
-                    + "Watch out for signs of strokes \n\n";
+            prec = prec + "<b><font color = '#f58a07'> Moderate Heat </font></b> \n\n\u2022 Stay Hydrated. \n\u2022 Drink water even if not thirsty \n"
+                    + "\u2022 Wear sunscreen with good SPF \n"
+                    + "\u2022 Use wet towel/napkins under your helmet \n"
+                    + "\u2022 Carry some snacks to stay energized \n"
+                    + "\u2022 Watch out for signs of strokes \n\n";
 
         if (wcStatus == 2)
-            prec = prec + "<b><font color = '#f58a07'> Moderate Wind-chill </font></b> \n\nDress in layers. \nWind resistent outer layer \n"
-                    + "Wear insulated gloves while riding \n"
-                    + "Cover as much exposed skin as possible \n"
-                    + "More you pedal more you generate the heat \n"
-                    + "Carry warm water in insulated bottle \n\n";
+            prec = prec + "<b><font color = '#f58a07'> Moderate Wind-chill </font></b> \n\n\u2022 Dress in layers. \n\u2022 Wind resistent outer layer \n"
+                    + "\u2022 Wear insulated gloves while riding \n"
+                    + "\u2022 Cover as much exposed skin as possible \n"
+                    + "\u2022 More you pedal more you generate the heat \n"
+                    + "\u2022 Carry warm water in insulated bottle \n\n";
 
         if (heatStatus == 1)
             prec = prec + "<b><font color = '#f5c107'> Minimal Heat </font></b> \n\n\u2022 Take plenty of water with you. \n"
@@ -643,8 +649,8 @@ public class WeatherMain extends MainActivity {
                     + "\u2022 Carry pocket heater\n\n";
 
         if (rainStatus > 0)
-            prec = prec + "<b>" + rainPer + "% Chances of Rain </b> \n\n" +
-                    "\u2022 Carry windcheater or jacket \n";
+            prec = prec + "<b><font color = '#f5c107'>" + rainPer + "% Chances of Rain </font></b> \n\n" +
+                    "\u2022 Carry windcheater or jacket \n\n";
 
             if (rainStatus >= 2)
                 prec = prec + "\u2022 Roads can be slippery, apply breaks slowely \n" +

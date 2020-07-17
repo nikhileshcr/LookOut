@@ -79,7 +79,7 @@ public class RuleQuiz extends MainActivity {
 
         SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(RuleQuiz.this, SweetAlertDialog.SUCCESS_TYPE)
                 .setTitleText("Good job!")
-                .setContentText("Right Asswer")
+                .setContentText("Right Answer")
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -145,7 +145,7 @@ public class RuleQuiz extends MainActivity {
     public void setUpQuestion(){
         questionModelArrayList.add(new QuestionModel("You should stop when the signal light becomes?","Red",new String[]{"Red","Black","Green","Yellow"}));
         questionModelArrayList.add(new QuestionModel("When there are pedestrians crossing the road, do you need to give way to them?","Of course I need to give the way.",new String[]{"Of course I need to give the way.","No, I should go to work quickly.","I don'know","May be"}));
-        questionModelArrayList.add(new QuestionModel("In built-up areas where there are no signs, the speed limit is? ","108",new String[]{"10 km/h","50 km/h","70 km/h","70 m/h"}));
+        questionModelArrayList.add(new QuestionModel("In built-up areas where there are no signs, the speed limit is? ","10 km/h",new String[]{"10 km/h","50 km/h","70 km/h","70 m/h"}));
         questionModelArrayList.add(new QuestionModel("Can you take a bike on a bus or tram?","Unless it is a folding bike",new String[]{"I think I can","if there is less people","Unless it is a folding bike","Of course not"}));
         questionModelArrayList.add(new QuestionModel("Can you park your bike if there is a ‘No Parking’ sign or similar?","NO",new String[]{"I can if my bicycle is worthless","Park but watch for Police","Park but keep an eye","NO"}));
     }

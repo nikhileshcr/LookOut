@@ -50,6 +50,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.material.navigation.NavigationView;
 
+import org.apache.log4j.chainsaw.Main;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
@@ -439,6 +440,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             latitude = location.getLatitude();
             longitude = location.getLongitude();
         }
+
     }
 
     @Override
@@ -455,7 +457,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
-        getWeather();
+        if (this.getClass() == MainActivity.class) {
+            Log.d("resact", this.toString());
+            getWeather();
+        }
+
     }
 
     protected void getWeather(){
@@ -477,7 +483,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     wDesc.setText(data.optJSONObject("weather").optString("description"));
                     wLoc.setText(data.optString("city_name").toUpperCase());
                     curr_temp_main.setText(data.optString("temp") + "°C");
-                    rain_main.setText(data.optString("precip") + "%");
+                    rain_main.setText(Math.round(Float.parseFloat(data.optString("precip"))) + "%");
 
                 } catch(JSONException e){
                     e.printStackTrace();

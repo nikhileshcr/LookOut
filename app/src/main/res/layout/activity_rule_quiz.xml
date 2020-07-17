@@ -80,7 +80,7 @@
                         android:textSize="15dp"
                         android:textColor="@color/colorPrimaryDark"
                         android:layout_alignParentLeft="true"
-                        android:fontFamily="@font/fredoka_one">
+                        android:fontFamily="@font/montserrat">
                     </TextView>
 
                     <TextView
@@ -93,7 +93,7 @@
                         android:textSize="15dp"
                         android:layout_marginLeft="20dp"
                         android:layout_alignParentRight="true"
-                        android:fontFamily="@font/fredoka_one">
+                        android:fontFamily="@font/montserrat">
                     </TextView>
 
                 </RelativeLayout>
@@ -115,7 +115,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginLeft="15dp"
-                    android:fontFamily="@font/fredoka_one"
+                    android:fontFamily="@font/montserrat"
                     android:gravity="center|center_horizontal"
                     android:text="Question"
                     android:textColor="@android:color/black"
@@ -130,11 +130,12 @@
                     android:layout_marginTop="20dp"
                     android:textSize="20dp"
                     android:text="Select Your Answer"
+                    android:textStyle="bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/layoutParent"
                     android:gravity="center"
-                    android:fontFamily="@font/fredoka_one">
+                    android:fontFamily="@font/montserrat">
                 </TextView>
 
                 <LinearLayout
@@ -164,7 +165,7 @@
                             android:layout_marginLeft="20dp"
                             android:gravity="center"
                             android:textColor="@android:color/black"
-                            android:fontFamily="@font/fredoka_one"
+                            android:fontFamily="@font/montserrat"
                             android:foreground="?android:attr/selectableItemBackground">>
                         </TextView>
 
@@ -184,7 +185,7 @@
                             android:layout_marginRight="20dp"
                             android:gravity="center"
                             android:textColor="@android:color/black"
-                            android:fontFamily="@font/fredoka_one"
+                            android:fontFamily="@font/montserrat"
                             android:foreground="?android:attr/selectableItemBackground">>
                         </TextView>
 
@@ -205,7 +206,7 @@
                             android:layout_marginLeft="20dp"
                             android:gravity="center"
                             android:textColor="@android:color/black"
-                            android:fontFamily="@font/fredoka_one"
+                            android:fontFamily="@font/montserrat"
                             android:foreground="?android:attr/selectableItemBackground">>
                         </TextView>
 
@@ -225,7 +226,7 @@
                             android:layout_marginRight="20dp"
                             android:gravity="center"
                             android:textColor="@android:color/black"
-                            android:fontFamily="@font/fredoka_one"
+                            android:fontFamily="@font/montserrat"
                             android:foreground="?android:attr/selectableItemBackground">>
                         </TextView>
                     </LinearLayout>
@@ -237,7 +238,8 @@
                         android:layout_height="wrap_content"
                         android:text="Submit"
                         android:textSize="25dp"
-                        android:fontFamily="@font/fredoka_one"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"
                         android:background="@drawable/bgpurple"
                         android:foreground="?android:attr/selectableItemBackground">
                     </Button>
